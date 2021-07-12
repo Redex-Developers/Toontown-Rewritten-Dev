@@ -1,0 +1,38 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  dev
+Traceback (most recent call last):
+  File "C:\Panda3D-1.8.1\python\lib\runpy.py", line 162, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "C:\Panda3D-1.8.1\python\lib\runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "D:\Toontown-Sources\Toontown-Sources\Toontown Rewritten MongoDB\toontown\toonbase\ToontownStart.py", line 106, in <module>
+    from toontown.distributed import ToontownClientRepository
+  File "toontown\distributed\ToontownClientRepository.py", line 36, in <module>
+    from toontown.friends import FriendsListPanel
+  File "toontown\friends\FriendsListPanel.py", line 5, in <module>
+    from toontown.toon import ToonAvatarPanel
+  File "toontown\toon\ToonAvatarPanel.py", line 14, in <module>
+    import ToonAvatarDetailPanel
+  File "toontown\toon\ToonAvatarDetailPanel.py", line 9, in <module>
+    import DistributedToon
+  File "toontown\toon\DistributedToon.py", line 13, in <module>
+    import Toon
+  File "toontown\toon\Toon.py", line 3265, in <module>
+    loadModels()
+  File "toontown\toon\Toon.py", line 235, in loadModels
+    model = loader.loadModelNode('/phase_3' + fileRoot + '1000')
+  File "C:\Panda3D-1.8.1\direct\showbase\Loader.py", line 253, in loadModelNode
+    model = self.loadModel(modelPath, noCache = False)
+  File "toontown\toonbase\ToontownLoader.py", line 78, in loadModel
+    ret = Loader.Loader.loadModel(self, *args, **kw)
+  File "C:\Panda3D-1.8.1\direct\showbase\Loader.py", line 170, in loadModel
+    raise IOError, message
+IOError: Could not load model file(s): ['/phase_3/models/char/crocodile-heads-1000']
