@@ -5,7 +5,6 @@ Version: ttrp-alpha-v1.1.8
 1. Smooth Animations
 
 2. WASD Support:
-
     - WASD to move
     - T to open chat
     - Enable or Disable in dev.prc
