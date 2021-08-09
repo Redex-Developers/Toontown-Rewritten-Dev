@@ -16,9 +16,9 @@ Version: ttrp-alpha-v1.1.8
 
 
 - New music from the recent TTR Version:
-    - Cachbot HQ Music Updated
-    - Lawbot DA Office Music Updated
+    - Cashbot HQ Music Updated
     - Cashbot Mint Music Updated
+    - Lawbot DA Office Music Updated
 
 
 - HP and levels now shown in cog battles
