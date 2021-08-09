@@ -5,9 +5,10 @@ Version: ttrp-alpha-v1.1.8
 - Smooth Animations
 
 - WASD Support:
-⋅⋅⋅ WASD to move
-⋅⋅⋅ T to open chat
-⋅⋅⋅ Enable or Disable in dev.prc
+
+WASD to move
+T to open chat
+Enable or Disable in dev.prc
 
 - Panda3D-1.11.0
 
