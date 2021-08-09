@@ -6,9 +6,9 @@ Version: ttrp-alpha-v1.1.8
 
 2. WASD Support:
 
-⋅⋅⋅WASD to move
-⋅⋅⋅T to open chat
-⋅⋅⋅Enable or Disable in dev.prc
+- WASD to move
+- T to open chat
+- Enable or Disable in dev.prc
 
 3. Panda3D-1.11.0
 
