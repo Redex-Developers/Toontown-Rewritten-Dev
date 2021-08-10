@@ -1,1 +1,0 @@
-Create astrondb folder before starting mongodb
