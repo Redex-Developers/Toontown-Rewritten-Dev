@@ -1,5 +1,5 @@
 # Embedded file name: toontown.election.DistributedToonfestCog
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag.NametagConstants import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -46,6 +46,7 @@ class DistributedToonfestCog(DistributedObject, FSM):
          'bodyHitFront': path + 'bodyHitFront_anim',
          'headHitBack': path + 'headHitBack_anim',
          'headHitFront': path + 'headHitFront_anim'})
+        self.actor.setBlend(frameBlend = base.wantSmoothAnims)
         self.actor.reparentTo(self.root)
         self.temp_transform = Mat4()
         self.head_locator = self.actor.attachNewNode('temphead')

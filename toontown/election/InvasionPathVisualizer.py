@@ -1,5 +1,5 @@
 # Embedded file name: toontown.election.InvasionPathVisualizer
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.ai.MagicWordGlobal import *
 from InvasionPathDataAI import pathfinder
 LINK_HEIGHT = 6

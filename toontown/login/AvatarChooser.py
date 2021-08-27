@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 import AvatarChoice
 from direct.fsm import StateData
@@ -6,9 +6,11 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from toontown.launcher import DownloadForceAcknowledge
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import DisplayOptions
+from toontown.toonbase import CustomMusicFade
+from toontown.toontowngui import NewLoadingScreen
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 import random
@@ -38,6 +40,8 @@ class AvatarChooser(StateData.StateData):
         self.fsm.enterInitialState()
         self.parentFSM = parentFSM
         self.parentFSM.getCurrentState().addChild(self.fsm)
+        self.loading = NewLoadingScreen.NewLoadingScreen()
+        self.customMusicFade = CustomMusicFade.CustomMusicFade()
         return
 
     def enter(self):
@@ -82,6 +86,7 @@ class AvatarChooser(StateData.StateData):
     def load(self, isPaid):
         if self.isLoaded == 1:
             return None
+        self.avatarStatus = True
         self.isPaid = isPaid
         gui = loader.loadModel('phase_3/models/gui/pick_a_toon_gui')
         gui2 = loader.loadModel('phase_3/models/gui/quit_button')
@@ -94,6 +99,9 @@ class AvatarChooser(StateData.StateData):
         quitHover = gui.find('**/QuitBtn_RLVR')
         self.quitButton = DirectButton(image=(quitHover, quitHover, quitHover), relief=None, text=TTLocalizer.AvatarChooserQuit, text_font=ToontownGlobals.getSignFont(), text_fg=(0.977, 0.816, 0.133, 1), text_pos=TTLocalizer.ACquitButtonPos, text_scale=TTLocalizer.ACquitButton, image_scale=1, image1_scale=1.05, image2_scale=1.05, scale=1.05, pos=(1.08, 0, -0.907), command=self.__handleQuit)
         self.logoutButton = DirectButton(relief=None, image=(quitHover, quitHover, quitHover), text=TTLocalizer.OptionsPageLogout, text_font=ToontownGlobals.getSignFont(), text_fg=(0.977, 0.816, 0.133, 1), text_scale=TTLocalizer.AClogoutButton, text_pos=(0, -0.035), pos=(-1.17, 0, -0.914), image_scale=1.15, image1_scale=1.15, image2_scale=1.18, scale=0.5, command=self.__handleLogoutWithoutConfirm)
+        if ConfigVariableBool('want-new-ttrloader', False):
+            self.loading.cleanup()
+            self.loading.musicFade()
         self.logoutButton.hide()
         gui.removeNode()
         gui2.removeNode()

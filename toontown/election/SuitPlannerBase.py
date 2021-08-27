@@ -1,5 +1,5 @@
 # Embedded file name: toontown.electionsuit.SuitPlannerBase
-from pandac.PandaModules import *
+from panda3d.core import *
 import random
 import string
 from direct.directnotify import DirectNotifyGlobal

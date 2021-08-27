@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 import ShtikerPage
 from direct.task.Task import Task
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import ZoneUtil
@@ -35,11 +35,11 @@ class ShardPage(ShtikerPage.ShtikerPage):
         main_text_scale = 0.06
         title_text_scale = 0.12
         self.title = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPageTitle, text_scale=title_text_scale, textMayChange=0, pos=(0, 0, 0.6))
-        helpText_ycoord = 0.403
+        helpText_ycoord = 0.303
         self.helpText = DirectLabel(parent=self, relief=None, text='', text_scale=main_text_scale, text_wordwrap=12, text_align=TextNode.ALeft, textMayChange=1, pos=(0.058, 0, helpText_ycoord))
-        shardPop_ycoord = helpText_ycoord - 0.523
-        totalPop_ycoord = shardPop_ycoord - 0.26
-        self.totalPopulationText = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPagePopulationTotal % 1, text_scale=main_text_scale, text_wordwrap=8, textMayChange=1, text_align=TextNode.ACenter, pos=(0.38, 0, totalPop_ycoord))
+        shardPop_ycoord = 0.403 - 0.523
+        totalPop_ycoord = shardPop_ycoord - -0.65
+        self.totalPopulationText = DirectLabel(parent=self, relief=None, text=TTLocalizer.ShardPagePopulationTotal, text_scale=main_text_scale, text_wordwrap=15, textMayChange=1, text_fg=(0.49803922, 0.09803922, 0.09803922, 1), text_align=TextNode.ACenter, pos=(0, 0, totalPop_ycoord))
         self.totalPopulationText.show()
         self.gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
         self.listXorigin = -0.02
@@ -78,7 +78,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
          self.gui.find('**/FndsLst_ScrollUp')), incButton_relief=None, incButton_scale=(self.arrowButtonScale, self.arrowButtonScale, -self.arrowButtonScale), incButton_pos=(self.buttonXstart, 0, self.itemFrameZorigin - 0.999), incButton_image3_color=Vec4(1, 1, 1, 0.2), decButton_image=(self.gui.find('**/FndsLst_ScrollUp'),
          self.gui.find('**/FndsLst_ScrollDN'),
          self.gui.find('**/FndsLst_ScrollUp_Rllvr'),
-         self.gui.find('**/FndsLst_ScrollUp')), decButton_relief=None, decButton_scale=(self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos=(self.buttonXstart, 0, self.itemFrameZorigin + 0.227), decButton_image3_color=Vec4(1, 1, 1, 0.2), itemFrame_pos=(self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale=1.0, itemFrame_relief=DGG.SUNKEN, itemFrame_frameSize=(self.listXorigin,
+         self.gui.find('**/FndsLst_ScrollUp')), decButton_relief=None, decButton_scale=(self.arrowButtonScale, self.arrowButtonScale, self.arrowButtonScale), decButton_pos=(self.buttonXstart, 0, self.itemFrameZorigin + 0.125), decButton_image3_color=Vec4(1, 1, 1, 0.2), itemFrame_pos=(self.itemFrameXorigin, 0, self.itemFrameZorigin), itemFrame_scale=1.0, itemFrame_relief=DGG.SUNKEN, itemFrame_frameSize=(self.listXorigin,
          self.listXorigin + self.listFrameSizeX,
          self.listZorigin,
          self.listZorigin + self.listFrameSizeZ), itemFrame_frameColor=(0.85, 0.95, 1, 1), itemFrame_borderWidth=(0.01, 0.01), numItemsVisible=15, forceHeight=0.065, items=self.shardButtons)

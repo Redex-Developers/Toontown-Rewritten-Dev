@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 import DistributedToonAI
 from direct.fsm import ClassicFSM
 from direct.fsm import State

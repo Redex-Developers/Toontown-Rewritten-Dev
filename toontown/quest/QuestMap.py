@@ -1,5 +1,5 @@
 import math
-from pandac.PandaModules import CardMaker, TextNode, Point3
+from panda3d.core import CardMaker, TextNode, Point3
 from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton
 from direct.task import Task
 from toontown.toon import NPCToons

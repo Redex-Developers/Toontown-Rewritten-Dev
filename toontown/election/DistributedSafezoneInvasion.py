@@ -1,5 +1,5 @@
 # Embedded file name: toontown.election.DistributedSafezoneInvasion
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.DistributedObject import DistributedObject
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals

@@ -1,7 +1,7 @@
 import TTLocalizer
 from otp.otpbase.OTPGlobals import *
 from direct.showbase.PythonUtil import Enum, invertDict
-from pandac.PandaModules import BitMask32, Vec4
+from panda3d.core import BitMask32, Vec4
 MapHotkeyOn = 'alt'
 MapHotkeyOff = 'alt-up'
 MapHotkey = 'alt'
@@ -120,6 +120,9 @@ ToonFont = None
 BuildingNametagFont = None
 MinnieFont = None
 SuitFont = None
+MickeyFontClassic = None
+MickeyFontStandard = None
+MickeyFontMaximum = None
 
 def getToonFont():
     global ToonFont
@@ -148,6 +151,23 @@ def getSuitFont():
         SuitFont = loader.loadFont(TTLocalizer.SuitFont, pixelsPerUnit=40, spaceAdvance=0.25, lineHeight=1.0)
     return SuitFont
 
+def getMickeyFontClassic():
+    global MickeyFontClassic
+    if MickeyFontClassic == None:
+        MickeyFontClassic = loader.loadFont(TTLocalizer.MickeyFontClassic)
+    return MickeyFontClassic
+
+def getMickeyFontStandard():
+    global MickeyFontStandard
+    if MickeyFontStandard == None:
+        MickeyFontStandard = loader.loadFont(TTLocalizer.MickeyFontStandard)
+    return MickeyFontStandard
+
+def getMickeyFontMaximum():
+    global MickeyFontMaximum
+    if MickeyFontMaximum == None:
+        MickeyFontMaximum = loader.loadFont(TTLocalizer.MickeyFontMaximum)
+    return MickeyFontMaximum
 SafezoneToonupFrequency = 30
 DonaldsDock = 1000
 ToontownCentral = 2000

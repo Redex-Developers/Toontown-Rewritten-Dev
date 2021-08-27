@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 import math
 import random
-from pandac.PandaModules import Point3
+from panda3d.core import Point3
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
 import SuitTimings
