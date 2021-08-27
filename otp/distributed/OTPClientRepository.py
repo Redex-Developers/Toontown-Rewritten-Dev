@@ -5,8 +5,8 @@ import types
 import random
 import gc
 import os
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
 from otp.distributed.OtpDoGlobals import *
 from direct.interval.IntervalGlobal import ivalMgr
@@ -37,6 +37,8 @@ from otp.uberdog import OtpAvatarManager
 from otp.distributed import OtpDoGlobals
 from otp.distributed.TelemetryLimiter import TelemetryLimiter
 from otp.ai.GarbageLeakServerEventAggregator import GarbageLeakServerEventAggregator
+from toontown.toonbase import ToontownGlobals
+from toontown.toontowngui import NewLoadingScreen
 
 class OTPClientRepository(ClientRepositoryBase):
     notify = directNotify.newCategory('OTPClientRepository')
@@ -50,7 +52,9 @@ class OTPClientRepository(ClientRepositoryBase):
     def __init__(self, serverVersion, launcher = None, playGame = None):
         ClientRepositoryBase.__init__(self)
 
+        self.loading = NewLoadingScreen.NewLoadingScreen()
 
+        self.statusstuff = None
 
         self.handler = None
 
@@ -260,6 +264,13 @@ class OTPClientRepository(ClientRepositoryBase):
                   self.exitLoginOff, [
                       'connect']),
             State('connect',
+                  self.enterPressKey,
+                  self.exitConnect, [
+                      'noConnection',
+                      'login',
+                      'failedToConnect',
+                      'failedToGetServerConstants']),
+            State('connect2',
                   self.enterConnect,
                   self.exitConnect, [
                       'noConnection',
@@ -287,12 +298,12 @@ class OTPClientRepository(ClientRepositoryBase):
             State('failedToConnect',
                   self.enterFailedToConnect,
                   self.exitFailedToConnect, [
-                      'connect',
+                      'connect2',
                       'shutdown']),
             State('failedToGetServerConstants',
                   self.enterFailedToGetServerConstants,
                   self.exitFailedToGetServerConstants, [
-                      'connect',
+                      'connect2',
                       'shutdown',
                       'noConnection']),
             State('shutdown',
@@ -335,7 +346,7 @@ class OTPClientRepository(ClientRepositoryBase):
                   self.enterNoConnection,
                   self.exitNoConnection, [
                       'login',
-                      'connect',
+                      'connect2',
                       'shutdown']),
             State('afkTimeout',
                   self.enterAfkTimeout,
@@ -434,6 +445,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.loginFSM.getStateNamed('playingGame').addChild(self.gameFSM)
         self.loginFSM.enterInitialState()
         self.music = None
+        self.stopMusic = self.loading.exitMusic
         self.gameDoneEvent = 'playGameDone'
         self.playGame = playGame(self.gameFSM, self.gameDoneEvent)
         self.shardListHandle = None
@@ -481,11 +493,26 @@ class OTPClientRepository(ClientRepositoryBase):
         return self.serverVersion
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
+    def enterPressKey(self, serverList):
+        if ConfigVariableBool('want-new-ttrloader', False):
+            self.pressKeyText = OnscreenText(parent = aspect2d, text = 'Press Any Key To Enter', font = ToontownGlobals.getMickeyFontMaximum(), fg = (0.97647059, 0.81568627, 0.13333333, 1), align=TextNode.ACenter, scale=0.15, pos=(0, -0.67))
+            self.pressKeyText.show()
+            base.buttonThrowers[0].node().setButtonDownEvent("button")
+            self.acceptOnce('button', self.enterConnect)
+        else:
+            self.enterConnect(serverList)
+
+    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterConnect(self, serverList):
+        self.exitPressKey()
         self.serverList = serverList
         dialogClass = OTPGlobals.getGlobalDialogClass()
-        self.connectingBox = dialogClass(message=OTPLocalizer.CRConnecting)
-        self.connectingBox.show()
+        if ConfigVariableBool('want-new-ttrloader', False):
+            self.connectingText = OnscreenText(parent = aspect2d, text='Connecting...', font = ToontownGlobals.getMickeyFontMaximum(), fg = (0.97647059, 0.81568627, 0.13333333, 1), align=TextNode.ACenter, scale=0.15, pos=(0, -0.67))
+            self.connectingText.show()
+        else:
+            self.connectingBox = dialogClass(message=OTPLocalizer.CRConnecting)
+            self.connectingBox.show()
         self.renderFrame()
         self.handler = self.handleConnecting
         # TTR SSL Hack
@@ -498,6 +525,13 @@ class OTPClientRepository(ClientRepositoryBase):
                     self.http.addPreapprovedServerCertificateFilename(server, Filename('/phase_3/etc/TTRDev.crt'))
 
         self.connect(self.serverList, successCallback=self._sendHello, failureCallback=self.failedToConnect)
+
+    def exitPressKey(self):
+        try:
+            self.pressKeyText.cleanup()
+            del self.pressKeyText
+        except AttributeError:
+            pass
 
     def _sendHello(self):
         datagram = PyDatagram()
@@ -518,8 +552,12 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitConnect(self):
-        self.connectingBox.cleanup()
-        del self.connectingBox
+        if ConfigVariableBool('want-new-ttrloader', False):
+            self.connectingText.cleanup()
+            del self.connectingText
+        else:
+            self.connectingBox.cleanup()
+            del self.connectingBox
 
     def handleSystemMessage(self, di):
         message = ClientRepositoryBase.handleSystemMessage(self, di)
@@ -548,8 +586,12 @@ class OTPClientRepository(ClientRepositoryBase):
     def enterLogin(self):
         self.sendSetAvatarIdMsg(0)
         dialogClass = OTPGlobals.getGlobalDialogClass()
-        self.loggingInBox = dialogClass(message=OTPLocalizer.CRLoggingIn)
-        self.loggingInBox.show()
+        if ConfigVariableBool('want-new-ttrloader', False):
+            self.loggingInText = OnscreenText(parent = aspect2d, text='Authenticating...', font = ToontownGlobals.getMickeyFontMaximum(), fg = (0.97647059, 0.81568627, 0.13333333, 1), align=TextNode.ACenter, scale=0.15, pos=(0, -0.67))
+            self.loggingInText.show()
+        else:
+            self.loggingInBox = dialogClass(message=OTPLocalizer.CRLoggingIn)
+            self.loggingInBox.show()
         self.renderFrame()
         self.loginDoneEvent = 'loginDone'
         self.accept(self.loginDoneEvent, self.__handleLoginDone)
@@ -580,8 +622,12 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitLogin(self):
-        self.loggingInBox.cleanup()
-        del self.loggingInBox
+        if ConfigVariableBool('want-new-ttrloader', False):
+            self.loggingInText.cleanup()
+            del self.loggingInText
+        else:
+            self.loggingInBox.cleanup()
+            del self.loggingInBox
         self.cleanupWaitingForDatabase()
         self.ignore(self.loginDoneEvent)
         del self.loginDoneEvent
@@ -651,7 +697,8 @@ class OTPClientRepository(ClientRepositoryBase):
     def __handleFailedToConnectAck(self):
         doneStatus = self.failedToConnectBox.doneStatus
         if doneStatus == 'ok':
-            self.loginFSM.request('connect', [self.serverList])
+            self.loginFSM.request('connect2', [self.serverList])
+            #self.enterConnect(self.serverList)
             messenger.send('connectionRetrying')
         elif doneStatus == 'cancel':
             self.loginFSM.request('shutdown')
@@ -695,7 +742,7 @@ class OTPClientRepository(ClientRepositoryBase):
     def __handleFailedToGetConstantsAck(self):
         doneStatus = self.failedToGetConstantsBox.doneStatus
         if doneStatus == 'ok':
-            self.loginFSM.request('connect', [self.serverList])
+            self.loginFSM.request('connect2', [self.serverList])
             messenger.send('connectionRetrying')
         elif doneStatus == 'cancel':
             self.loginFSM.request('shutdown')
@@ -836,8 +883,8 @@ class OTPClientRepository(ClientRepositoryBase):
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterNoShardsWait(self):
         dialogClass = OTPGlobals.getGlobalDialogClass()
-        self.connectingBox = dialogClass(message=OTPLocalizer.CRConnecting)
-        self.connectingBox.show()
+        self.connectingText = OnscreenText(parent = aspect2d, text='Connecting...', font = ToontownGlobals.getMickeyFontMaximum(), fg = (0.97647059, 0.81568627, 0.13333333, 1), align=TextNode.ACenter, scale=0.15, pos=(0, -0.67))
+        self.connectingText.show()
         self.renderFrame()
         self.noShardsWaitTaskName = 'noShardsWait'
 
@@ -854,8 +901,8 @@ class OTPClientRepository(ClientRepositoryBase):
     def exitNoShardsWait(self):
         taskMgr.remove(self.noShardsWaitTaskName)
         del self.noShardsWaitTaskName
-        self.connectingBox.cleanup()
-        del self.connectingBox
+        self.connectingText.cleanup()
+        del self.connectingText
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterReject(self):
@@ -902,7 +949,7 @@ class OTPClientRepository(ClientRepositoryBase):
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def __handleLostConnectionAck(self):
         if self.lostConnectionBox.doneStatus == 'ok' and self.loginInterface.supportsRelogin():
-            self.loginFSM.request('connect', [self.serverList])
+            self.loginFSM.request('connect2', [self.serverList])
         else:
             self.loginFSM.request('shutdown')
 
@@ -978,10 +1025,11 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterChooseAvatar(self, avList):
-        pass
+        self.statusstuff = True
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitChooseAvatar(self):
+        
         pass
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
@@ -1336,8 +1384,6 @@ class OTPClientRepository(ClientRepositoryBase):
             pyc = HashVal()
             if not __dev__:
                 self.hashFiles(pyc)
-            self.timeManager.d_setSignature(self.userSignature, h.asBin(), pyc.asBin())
-            self.timeManager.sendCpuInfo()
             if self.timeManager.synchronize('startup'):
                 self.accept('gotTimeSync', self.gotTimeSync)
                 self.waitForDatabaseTimeout(requestName='uberZoneInterest-timeSync')
@@ -1421,9 +1467,8 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterPlayGame(self, hoodId, zoneId, avId):
-        if self.music:
-            self.music.stop()
-            self.music = None
+        if ConfigVariableBool('want-new-ttrloader', False):
+            self.stopMusic()
         self.garbageLeakLogger = GarbageLeakServerEventAggregator(self)
         self.handler = self.handlePlayGame
         self.accept(self.gameDoneEvent, self.handleGameDone)

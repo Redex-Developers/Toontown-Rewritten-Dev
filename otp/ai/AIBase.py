@@ -12,17 +12,18 @@ from direct.showbase.BulletinBoardGlobal import *
 from direct.showbase.EventManagerGlobal import *
 from direct.showbase.JobManagerGlobal import *
 from direct.showbase.MessengerGlobal import *
+from direct.showbase import DConfig
 from direct.task import Task
 from direct.task.TaskManagerGlobal import *
 from otp.otpbase import BackupManager
-from pandac.PandaModules import *
+from panda3d.core import *
 
 
 class AIBase:
     notify = directNotify.newCategory('AIBase')
 
     def __init__(self):
-        self.config = getConfigShowbase()
+        self.config = DConfig
         __builtins__['__dev__'] = self.config.GetBool('want-dev', 0)
         logStackDump = (self.config.GetBool('log-stack-dump', (not __dev__)) or self.config.GetBool('ai-log-stack-dump', (not __dev__)))
         uploadStackDump = self.config.GetBool('upload-stack-dump', 0)
