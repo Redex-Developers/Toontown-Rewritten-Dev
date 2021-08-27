@@ -1,5 +1,5 @@
 # Embedded file name: toontown.electionsuit.DistributedSuitPlanner
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed import DistributedObject
 import SuitPlannerBase
 from toontown.toonbase import ToontownGlobals

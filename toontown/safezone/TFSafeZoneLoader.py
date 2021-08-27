@@ -1,5 +1,5 @@
 # Embedded file name: toontown.safezone.TFSafeZoneLoader
-from pandac.PandaModules import *
+from panda3d.core import *
 from SafeZoneLoader import SafeZoneLoader
 import TFPlayground
 from toontown.hood import ZoneUtil
@@ -53,6 +53,9 @@ class TFSafeZoneLoader(SafeZoneLoader):
         self.fluffy.setH(829)
         self.fluffy.enterNeutralHappy()
         self.fluffy.initializeBodyCollisions('pet')
+        self.tfcog = ToonfestCog.ToonfestCog()
+        self.tfcog.addActive()
+        self.tfcog.reparentTo(render)
         try:
             self.towerGeom = self.geom.find('**/toonfest_tower_DNARoot')
             self.base1 = self.towerGeom.find('**/base1')

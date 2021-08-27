@@ -13,6 +13,9 @@ SignFont = 'phase_3/models/fonts/MickeyFont'
 MinnieFont = 'phase_3/models/fonts/MinnieFont'
 FancyFont = 'phase_3/models/fonts/Comedy'
 BuildingNametagFont = 'phase_3/models/fonts/MickeyFont'
+MickeyFontClassic = 'phase_3/fonts/MickeyFontStandard'
+MickeyFontStandard = 'phase_3/fonts/MickeyFontClassic'
+MickeyFontMaximum = 'phase_3/fonts/MickeyFontMaximum'
 BuildingNametagShadow = None
 NametagFonts = ('phase_3/models/fonts/AnimGothic',
  'phase_3/models/fonts/Aftershock',
@@ -4851,7 +4854,7 @@ ShardPageHelpIntro = 'Each District is a copy of the Toontown world.'
 ShardPageHelpWhere = '  You are currently in the "%s" District.'
 ShardPageHelpWelcomeValley = '  You are currently in the "Welcome Valley" District, within "%s".'
 ShardPageHelpMove = '  To move to a new District, click on its name.'
-ShardPagePopulationTotal = 'Total Toontown Population:\n%d'
+ShardPagePopulationTotal = 'Total Toontown Population: %d'
 ShardPageScrollTitle = 'Name            Population'
 ShardPageLow = 'Quiet'
 ShardPageMed = 'Ideal'
@@ -5302,7 +5305,7 @@ PetTutorialPage2 = "Use the new 'Pets' area in the SpeedChat menu to get a Doodl
 PetTutorialPage3 = "Purchase new Doodle tricks from Clarabelle's Cattlelog.  Better tricks give better Toon-Ups!"
 
 def getPetGuiAlign():
-    from pandac.PandaModules import TextNode
+    from panda3d.core import TextNode
     return TextNode.ACenter
 
 

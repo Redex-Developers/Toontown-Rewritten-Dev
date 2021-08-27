@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from toontown.toonbase import ToontownGlobals

@@ -3,7 +3,7 @@ import string
 import os
 import sys
 import datetime
-from pandac.PandaModules import loadPrcFileData, WindowProperties
+from panda3d.core import loadPrcFileData, WindowProperties
 from otp.otpgui import OTPDialog
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPRender
@@ -30,7 +30,7 @@ class DisplayOptions:
         toonChatSounds = self.settings.getBool('game', 'toon-chat-sounds', True)
         musicVol = self.settings.getInt('game', 'music-vol', 100) / 100.0
         sfxVol = self.settings.getInt('game', 'sfx-vol', 100) / 100.0
-        res = self.settings.getList('game', 'resolution', default=[800, 600], expectedLength=2)
+        res = self.settings.getList('game', 'resolution', default=[1280, 720], expectedLength=2)
         embed = self.settings.getBool('game', 'embed', False)
         antialias = self.settings.getInt('game', 'antialiasing', 0)
         if antialias:

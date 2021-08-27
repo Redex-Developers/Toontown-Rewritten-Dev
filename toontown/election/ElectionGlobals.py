@@ -1,7 +1,7 @@
 # Embedded file name: toontown.election.ElectionGlobals
 from direct.interval.IntervalGlobal import *
 from otp.nametag.NametagConstants import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from random import choice
 FlippyWheelbarrowPies = [[1.16,
   11.24,

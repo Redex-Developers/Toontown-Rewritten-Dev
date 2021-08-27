@@ -1,0 +1,60 @@
+from panda3d.core import *
+from toontown.toontowngui import NewLoadingScreen
+import time
+
+class CustomMusicFade():
+
+    def __init__(self):
+        print "CustomMusicFade: Starting custom music fade"
+        
+        self.loading = NewLoadingScreen.NewLoadingScreen()
+
+    def musicFade(self):
+        music.setVolume(0.8)
+        music2.setVolume(0.1)
+        time.sleep(0.05)
+        music.setVolume(0.75)
+        music2.setVolume(0.15)
+        time.sleep(0.05)
+        music.setVolume(0.7)
+        music2.setVolume(0.2)
+        time.sleep(0.05)
+        music.setVolume(0.65)
+        music2.setVolume(0.25)
+        time.sleep(0.05)
+        music.setVolume(0.6)
+        music2.setVolume(0.3)
+        time.sleep(0.05)
+        music.setVolume(0.55)
+        music2.setVolume(0.35)
+        time.sleep(0.05)
+        music.setVolume(0.5)
+        music2.setVolume(0.4)
+        time.sleep(0.05)
+        music.setVolume(0.45)
+        music2.setVolume(0.45)
+        time.sleep(0.05)
+        music.setVolume(0.4)
+        music2.setVolume(0.5)
+        time.sleep(0.05)
+        music.setVolume(0.35)
+        music2.setVolume(0.55)
+        time.sleep(0.05)
+        music.setVolume(0.3)
+        music2.setVolume(0.6)
+        time.sleep(0.05)
+        music.setVolume(0.25)
+        music2.setVolume(0.65)
+        time.sleep(0.05)
+        music.setVolume(0.2)
+        music2.setVolume(0.7)
+        time.sleep(0.05)
+        music.setVolume(0.15)
+        music2.setVolume(0.75)
+        time.sleep(0.05)
+        music.setVolume(0.1)
+        music2.setVolume(0.8)
+        time.sleep(0.05)
+        music.setVolume(0)
+        music2.setVolume(0.8)
+        time.sleep(0.05)

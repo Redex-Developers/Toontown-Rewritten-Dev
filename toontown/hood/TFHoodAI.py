@@ -10,7 +10,7 @@ from toontown.election import DistributedToonfestBalloonAI
 from toontown.election import DistributedToonfestTowerBaseAI
 from toontown.election import DistributedToonfestCogAI
 from direct.fsm.FSM import FSM
-from pandac.PandaModules import *
+from panda3d.core import *
 
 class TFHoodAI(SZHoodAI):
     notify = directNotify.newCategory('SZHoodAI')

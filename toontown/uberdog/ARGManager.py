@@ -3,7 +3,7 @@ from toontown.toonbase import ToontownGlobals
 from otp.speedchat import SpeedChatGlobals
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.hood import ZoneUtil
-from pandac.PandaModules import Vec3
+from panda3d.core import Vec3
 
 # Portable Hole settings
 Hood2Details = {

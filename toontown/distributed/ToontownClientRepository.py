@@ -1,9 +1,9 @@
 import types
 import time
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import ivalMgr
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
@@ -72,6 +72,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         setSignFont(TTLocalizer.SignFont)
         setFancyFont(TTLocalizer.FancyFont)
         nameTagFontIndex = 0
+        
         for font in TTLocalizer.NametagFonts:
             setNametagFont(nameTagFontIndex, TTLocalizer.NametagFonts[nameTagFontIndex])
             nameTagFontIndex += 1
@@ -214,12 +215,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         TexturePool.garbageCollect()
         self.sendSetAvatarIdMsg(0)
         self.clearFriendState()
-        if self.music == None and base.musicManagerIsValid:
-            self.music = base.musicManager.getSound('phase_3/audio/bgm/ttr_theme.ogg')
-            if self.music:
-                self.music.setLoop(1)
-                self.music.setVolume(0.9)
-                self.music.play()
+        #if self.music == None and base.musicManagerIsValid:
+            #self.music = base.musicManager.getSound('phase_3/audio/bgm/ttr_theme.ogg')
+            #if self.music:
+                #self.music.setLoop(1)
+                #self.music.setVolume(0.9)
+                #self.music.play()
         base.playMusic(self.music, looping=1, volume=0.9, interrupt=None)
         self.handler = self.handleMessageType
         self.avChoiceDoneEvent = 'avatarChooserDone'

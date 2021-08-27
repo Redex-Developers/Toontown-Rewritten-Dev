@@ -1,5 +1,5 @@
 # Embedded file name: toontown.election.DistributedInvasionSuit
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.FSM import FSM

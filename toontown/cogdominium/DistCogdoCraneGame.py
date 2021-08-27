@@ -1,4 +1,4 @@
-from pandac import PandaModules as PM
+from panda3d import core as PM
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.task.Task import Task
 from otp.level import LevelConstants

@@ -1,10 +1,11 @@
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.distributed.PyDatagram import *
 from direct.directnotify.DirectNotifyGlobal import directNotify
+from direct.showbase import DConfig
 from direct.task import Task
 from PartyGlobals import *
 from datetime import datetime, timedelta
-from pandac.PandaModules import *
+from panda3d.core import *
 
 class GlobalPartyManagerUD(DistributedObjectGlobalUD):
     notify = directNotify.newCategory('GlobalPartyManagerUD')
@@ -24,7 +25,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
         endTime = datetime.strptime('2014-01-20 12:20:00', PARTY_TIME_FORMAT)
         self.partyAllocator = UniqueIdAllocator(0, 100000000)
         #self.host2Party[100000001] = {'hostId': 100000001, 'start': startTime, 'end': endTime, 'partyId': 1717986918400000, 'decorations': [[3,5,7,6]], 'activities': [[10,13,6,18],[7,8,7,0]],'inviteTheme':1,'isPrivate':0,'inviteeIds':[]}
-        config = getConfigShowbase()
+        config = DConfig
         self.wantInstantParties = config.GetBool('want-instant-parties', 0)
 
         # Setup tasks

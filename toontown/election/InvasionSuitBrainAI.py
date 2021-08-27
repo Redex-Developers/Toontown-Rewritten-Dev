@@ -1,6 +1,6 @@
 # Embedded file name: toontown.election.InvasionSuitBrainAI
 import random
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.fsm.FSM import FSM
 from InvasionPathDataAI import pathfinder
 

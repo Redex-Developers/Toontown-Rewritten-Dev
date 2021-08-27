@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
@@ -10,8 +10,9 @@ class Walk(StateData.StateData):
 
     def __init__(self, doneEvent):
         StateData.StateData.__init__(self, doneEvent)
-        self.fsm = ClassicFSM.ClassicFSM('Walk', [State.State('off', self.enterOff, self.exitOff, ['walking', 'swimming', 'slowWalking']),
-         State.State('walking', self.enterWalking, self.exitWalking, ['swimming', 'slowWalking']),
+        self.fsm = ClassicFSM.ClassicFSM('Walk', [State.State('off', self.enterOff, self.exitOff, ['walking', 'swimming', 'slowWalking', 'sprinting']),
+         State.State('walking', self.enterWalking, self.exitWalking, ['sprinting', 'swimming', 'slowWalking']),
+         State.State('sprinting', self.enterSprinting, self.exitSprinting, ['walking', 'swimming', 'slowWalking']),
          State.State('swimming', self.enterSwimming, self.exitSwimming, ['walking', 'slowWalking']),
          State.State('slowWalking', self.enterSlowWalking, self.exitSlowWalking, ['walking', 'swimming'])], 'off', 'off')
         self.fsm.enterInitialState()
@@ -48,6 +49,8 @@ class Walk(StateData.StateData):
         base.localAvatar.stopGlitchKiller()
         base.localAvatar.collisionsOff()
         base.localAvatar.controlManager.placeOnFloor()
+        base.localAvatar.setWalkSpeedNormal()
+        
 
     def enterOff(self):
         pass
@@ -57,13 +60,29 @@ class Walk(StateData.StateData):
 
     def enterWalking(self):
         if base.localAvatar.hp > 0:
+            base.camLens.setMinFov(52.0/(4./3.))
             base.localAvatar.startTrackAnimToSpeed()
             base.localAvatar.setWalkSpeedNormal()
+            self.acceptOnce('control-w', self.enterSprinting)
+            self.acceptOnce('lcontrol', self.enterSprinting)
         else:
             self.fsm.request('slowWalking')
 
+    def enterSprinting(self):
+        if base.localAvatar.hp > 0:
+            fov = base.camLens.setMinFov(60.0/(4./3.))
+            base.localAvatar.startTrackAnimToSpeed()
+            base.localAvatar.setSprintSpeedNormal()
+            self.acceptOnce('w', self.enterWalking)
+            self.acceptOnce('lcontrol-up', self.enterWalking)
+
+    def exitSprinting(self):
+        base.localAvatar.startTrackAnimToSpeed()
+        base.localAvatar.setWalkSpeedNormal()
+
     def exitWalking(self):
         base.localAvatar.stopTrackAnimToSpeed()
+        base.localAvatar.setWalkSpeedNormal()
 
     def setSwimSoundAudible(self, IsSwimSoundAudible):
         self.IsSwimSoundAudible = IsSwimSoundAudible

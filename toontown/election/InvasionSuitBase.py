@@ -1,5 +1,5 @@
 # Embedded file name: toontown.election.InvasionSuitBase
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 
 class InvasionSuitBase:
