@@ -492,25 +492,25 @@ class OTPClientRepository(ClientRepositoryBase):
     def getServerVersion(self):
         return self.serverVersion
 
-    @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterPressKey(self, serverList):
+        self.serverList = serverList
         if ConfigVariableBool('want-new-ttrloader', False):
             self.pressKeyText = OnscreenText(parent = aspect2d, text = 'Press Any Key To Enter', font = ToontownGlobals.getMickeyFontMaximum(), fg = (0.97647059, 0.81568627, 0.13333333, 1), align=TextNode.ACenter, scale=0.15, pos=(0, -0.67))
             self.pressKeyText.show()
-            base.buttonThrowers[0].node().setButtonDownEvent("button")
-            self.acceptOnce('button', self.enterConnect)
+            base.buttonThrowers[0].node().setButtonDownEvent('buttonpress')
+            self.acceptOnce('buttonpress', self.enterConnect)
         else:
             self.enterConnect(serverList)
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterConnect(self, serverList):
         self.exitPressKey()
-        self.serverList = serverList
         dialogClass = OTPGlobals.getGlobalDialogClass()
         if ConfigVariableBool('want-new-ttrloader', False):
             self.connectingText = OnscreenText(parent = aspect2d, text='Connecting...', font = ToontownGlobals.getMickeyFontMaximum(), fg = (0.97647059, 0.81568627, 0.13333333, 1), align=TextNode.ACenter, scale=0.15, pos=(0, -0.67))
             self.connectingText.show()
         else:
+            self.serverList = serverList
             self.connectingBox = dialogClass(message=OTPLocalizer.CRConnecting)
             self.connectingBox.show()
         self.renderFrame()
@@ -529,7 +529,7 @@ class OTPClientRepository(ClientRepositoryBase):
     def exitPressKey(self):
         try:
             self.pressKeyText.cleanup()
-            del self.pressKeyText
+            base.buttonThrowers[0].node().setButtonDownEvent('')
         except AttributeError:
             pass
 
@@ -698,7 +698,6 @@ class OTPClientRepository(ClientRepositoryBase):
         doneStatus = self.failedToConnectBox.doneStatus
         if doneStatus == 'ok':
             self.loginFSM.request('connect2', [self.serverList])
-            #self.enterConnect(self.serverList)
             messenger.send('connectionRetrying')
         elif doneStatus == 'cancel':
             self.loginFSM.request('shutdown')
