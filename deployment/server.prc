@@ -61,4 +61,4 @@ mega-invasion-cog-type tm
 
 # Working (Custom) Addons!
 want-toonfest #t
-want-doomsday #t
+want-doomsday #f
