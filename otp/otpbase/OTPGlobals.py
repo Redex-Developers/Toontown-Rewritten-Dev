@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 QuietZone = 1
 UberZone = 2
 WallBitmask = BitMask32(1)
@@ -11,6 +11,7 @@ GhostBitmask = BitMask32(2048)
 PathFindingBitmask = BitMask32.bit(29)
 OriginalCameraFov = 52.0
 DefaultCameraFov = 52.0
+SprintingCameraFov = 72.0
 DefaultCameraFar = 400.0
 DefaultCameraNear = 1.0
 AICollisionPriority = 10
@@ -192,6 +193,7 @@ STRAFE_RIGHT_INDEX = 5
 ToonStandableGround = 0.707
 ToonSpeedFactor = 1.25
 ToonForwardSpeed = 16.0 * ToonSpeedFactor
+ToonFowardSprintSpeed = 32.0 * ToonSpeedFactor
 ToonJumpForce = 24.0
 ToonReverseSpeed = 8.0 * ToonSpeedFactor
 ToonRotateSpeed = 80.0 * ToonSpeedFactor

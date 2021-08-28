@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase.DirectObject import *
 from direct.distributed.ClockDelta import *
 from direct.task import Task
@@ -177,9 +177,6 @@ class TimeManager(DistributedObject.DistributedObject):
             self.cr.flush()
 
         return
-
-    def d_setSignature(self, signature, hash, pyc):
-        self.sendUpdate('setSignature', [signature, hash, pyc])
 
     def sendCpuInfo(self):
         if not base.pipe:
