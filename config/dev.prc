@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown Rewritten [DEV BUILD]
-server-version ttrp-alpha-1.1.8
+server-version ttrp-beta-2.2.1
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -12,8 +12,10 @@ texture-anisotropic-degree 16
 want-speedhack-fix #t
 
 
-# Controls
+# New Addons for the 1 Year Anniversary!
 want-WASD #t
+tt-framerate #t
+want-new-ttrloader #t
 
 
 # Fix for newer Nvidia GPU's to lower the gamma
@@ -92,4 +94,4 @@ mega-invasion-cog-type tm
 
 # Working (Custom) Addons!
 want-toonfest #t
-want-doomsday #t
+want-doomsday #f
